@@ -1,0 +1,14 @@
+version: '3'
+services:
+    jenkins-server:
+        image: jenkinsci/blueocean
+        ports:
+            - "8080:8080"
+        volumes:
+         - <dockerhost/your automation project folder/jenkins>:/var/jenkins_home
+    castlemock:
+        image: castlemock/castlemock
+        ports:
+            - "8081:8080"
+        volumes:
+         - <dockerhost/your automation project folder/castlemock>:/root/.castlemock
