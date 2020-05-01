@@ -1,0 +1,6 @@
+---
+- hosts: my_hosts
+  remote_user: root
+  tasks:
+    - name: Install updates
+      apt: update_cache=ye
