@@ -1,6 +1,7 @@
 ---
-- hosts: my_hosts
+- hosts: all
   remote_user: root
   tasks:
     - name: Install updates
-      apt: update_cache=ye
+      apt: update_cache=yes
+      delegate_to: localhost
