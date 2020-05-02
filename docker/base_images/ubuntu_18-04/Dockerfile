@@ -1,4 +1,5 @@
 FROM ubuntu:18.04
 RUN apt-get update && \
     yes | apt-get install ansible
-COPY inventory.txt ubuntu_updates.yml .
+COPY /home/jenkins/jenkins_slave/workspace/Docker_Deploy_Learning/ansible/inventory.txt .
+COPY /home/jenkins/jenkins_slave/workspace/Docker_Deploy_Learning/ansible/ubuntu_updates.yml .
