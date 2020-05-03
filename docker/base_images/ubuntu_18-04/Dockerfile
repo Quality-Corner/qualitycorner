@@ -1,6 +1,7 @@
 FROM ubuntu:18.04
 RUN apt-get update && \
-    apt-get install -y openssh-server
+    apt-get install -y openssh-server && \
+    apt-get install sudo
 
 # add jenkins and add to sudoers
 RUN useradd -m -s /bin/bash jenkins
