@@ -7,4 +7,4 @@ RUN useradd -m -s /bin/bash jenkins
 RUN echo 'jenkins:3InchSausage' | chpasswd
 RUN usermod -aG sudo jenkins
 
-CMD service ssh start && tail -f
+ENTRYPOINT service ssh start && tail -f
