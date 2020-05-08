@@ -3,5 +3,6 @@
   remote_user: root
   tasks:
     - name: Install updates
-      apt: update_cache=yes
-      delegate_to: localhost
+      package:
+        name: curl
+        state: present
