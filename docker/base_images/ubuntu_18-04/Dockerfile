@@ -9,5 +9,6 @@ RUN apt-get update && \
 RUN useradd -m -s /bin/bash jenkins
 RUN echo 'jenkins:3InchSausage' | chpasswd
 RUN usermod -aG sudo jenkins
-
-ENTRYPOINT service ssh start && tail -f
+CMD service ssh start
+CMD tail -f
+#ENTRYPOINT service ssh start && tail -f
