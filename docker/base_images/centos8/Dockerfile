@@ -9,6 +9,7 @@ RUN yum -y install initscripts && yum clean all
 
 # add devuser and add to sudoers
 RUN useradd -m -s /bin/bash jenkins
+# TODO replace password
 RUN echo 'jenkins:REPLACEME' | chpasswd
 # RUN usermod -aG sudo jenkins
 
