@@ -9,7 +9,8 @@ RUN yum -y install initscripts && yum clean all
 
 # add devuser and add to sudoers
 RUN useradd -m -s /bin/bash jenkins
-RUN echo 'jenkins:3InchSausage' | chpasswd
+# TODO replace password
+RUN echo 'jenkins:REPLACEME' | chpasswd
 # RUN usermod -aG sudo jenkins
 
 ENTRYPOINT systemctl enable sshd && systemctl restart sshd.service
