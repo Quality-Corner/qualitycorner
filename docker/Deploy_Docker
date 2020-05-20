@@ -1,0 +1,64 @@
+def ANSIBLE_PLAYBOOK_DIR
+def CONTAINER_IP
+def TIMESTAMP
+
+pipeline {
+  agent { node { label 'DOCKER' } }
+
+  stages {
+      stage('Start Docker Container') {
+         steps {
+            script {
+              ANSIBLE_PLAYBOOK_DIR = "${WORKSPACE}/ansible"
+
+              // Stop and remove old container
+              echo "=================================================================================="
+              echo "Stopping and removing old instances of ${Container_name}..."
+              echo "=================================================================================="
+              sh "docker ps -f name=${Container_name} -q | xargs --no-run-if-empty docker container stop"
+              sh "docker ps -af name=${Container_name} -q | xargs --no-run-if-empty docker container rm"
+
+              // Start new container
+              echo "=================================================================================="
+              echo "Starting new container - ${Container_name}..."
+              echo "=================================================================================="
+              sh "docker run --detach -v ~/.ssh:/home/devuser/.ssh --name ${Container_name} ${Docker_parameters} ${Docker_image}:latest"
+
+              CONTAINER_IP = sh (script: "docker inspect --format='{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${Container_name}", returnStdout: true).trim()
+              echo "=================================================================================="
+              echo "IP: ${CONTAINER_IP}"
+              echo "=================================================================================="
+
+              // Remove any old entry for this IP in known_hosts
+              echo "=================================================================================="
+              echo "Removing old entries for IP ${CONTAINER_IP} from know_hosts"
+              echo "=================================================================================="
+              sh "ssh-keygen -f $HOME/.ssh/known_hosts -R ${CONTAINER_IP}"
+              sh "rm -rf $HOME/.ssh/known_hosts.old"
+
+              // Create inventory file
+              TIMESTAMP = sh(script: "date +%F_%H%M%S", returnStdout: true).trim()
+              String inventoryFile = "inventory_" + TIMESTAMP + ".txt"
+              echo "=================================================================================="
+              echo "Adding container to inventory file ${inventoryFile}"
+              echo "=================================================================================="
+              sh "echo [automation_hosts] > ${inventoryFile}"
+              sh "echo \"${CONTAINER_IP} ansible_connection=ssh ansible_user=devuser ansible_password=pentaho06 ansible_become=yes ansible_become_password=pentaho06\" >> ${inventoryFile}"
+
+              // Run playbook
+              echo "=================================================================================="
+              echo "Running Ansible playbook ${Ansible_playbook}"
+              echo "=================================================================================="
+              sh "ansible-playbook -i ${inventoryFile} ${ANSIBLE_PLAYBOOK_DIR}/${Ansible_playbook}"
+
+
+              // Remove inventory file
+              echo "=================================================================================="
+              echo "Removing inventory file ${inventoryFile}"
+              echo "=================================================================================="
+              sh "rm -rf ${inventoryFile}"
+            }
+         }
+      }
+  }
+}
