@@ -43,7 +43,7 @@ pipeline {
               echo "Adding container to inventory file ${inventoryFile}"
               echo "=================================================================================="
               sh "echo [automation_hosts] > ${inventoryFile}"
-              sh "echo \"${CONTAINER_IP} ansible_connection=ssh ansible_user=devuser ansible_password=pentaho06 ansible_become=yes ansible_become_password=pentaho06\" >> ${inventoryFile}"
+              sh "echo \"${CONTAINER_IP} ansible_connection=ssh ansible_user=devuser ansible_password=REPLACEME ansible_become=yes ansible_become_password=REPLACEME\" >> ${inventoryFile}"
 
               // Run playbook
               echo "=================================================================================="

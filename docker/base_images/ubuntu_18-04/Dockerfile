@@ -7,7 +7,7 @@ RUN apt-get update && \
 
                                         # add devuser and add to sudoers
                                         RUN useradd -m -s /bin/bash jenkins
-                                        RUN echo 'jenkins:3InchSausage' | chpasswd
+                                        RUN echo 'jenkins:REPLACEME' | chpasswd
                                         RUN usermod -aG sudo jenkins
                                         CMD service ssh start
                                         CMD tail -f
