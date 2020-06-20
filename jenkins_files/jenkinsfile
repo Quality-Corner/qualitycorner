@@ -1,3 +1,17 @@
 pipeline {
-
+    agent {
+        dockerfile {
+            args '--entrypoint=\'\''
+            filename 'Dockerfile'
+            dir '/home/jenkins/jenkins_slave/workspace/Docker_Pipeline_Learning/docker/base_images/ubuntu_1804'
+            label 'DOCKER'
+        }
+    }
+    stages {
+        stage('Deploy') {
+            steps {
+                sh 'pwd'
+            }
+        }
+    }
 }
