@@ -1,11 +1,16 @@
 pipeline {
     agent {
-        any { image 'node:7-alpine' }
+        dockerfile {
+            args '--entrypoint=\'\''
+            filename 'Dockerfile'
+            dir '/home/jenkins/jenkins_slave/workspace/Docker_Deploy_Learning/docker/base_images/ubuntu_18-04'
+            label 'DOCKER'
+        }
     }
     stages {
-        stage('Test') {
+        stage('Deploy') {
             steps {
-                sh 'docker ps'
+                sh 'pwd'
             }
         }
     }
