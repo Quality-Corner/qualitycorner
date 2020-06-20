@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Deploy') {
             steps {
-                sh 'pwd'
+                sh 'tail -f'
             }
         }
     }
