@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y openssh-server
 RUN apt-get install -y sudo
 
 # install ansible
-RUN apt-get install -t ansible
+RUN apt-get install -y ansible
 
 # Create devuser and add to sudoers
 RUN useradd -m -s /bin/bash jenkins
