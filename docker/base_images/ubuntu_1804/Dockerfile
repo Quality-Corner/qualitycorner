@@ -7,9 +7,9 @@ RUN apt-get update && apt-get install -y openssh-server
 RUN apt-get install -y sudo
 
 # Create devuser and add to sudoers
-RUN useradd -m -s /bin/bash devuser
+RUN useradd -m -s /bin/bash jenkins
 # TODO replace password
-RUN echo 'devuser:REPLACEME' | chpasswd
-RUN usermod -aG sudo devuser
+RUN echo 'jenkins:jenkins' | chpasswd
+RUN usermod -aG sudo jenkins
 
 CMD service ssh start && tail -f
